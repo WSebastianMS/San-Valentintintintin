@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión: San Valentín 🌸</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="pixel-hearts-bg"></div>
+        <div class="splash-content">
+            <h1 class="game-title">MISIÓN: SAN VALENTÍN</h1>
+            <p class="press-start-text">Para mi Player 2 👾</p>
+            <button id="start-btn" class="pixel-btn start-btn delayed-appear">CONTINUAR ▶</button>
+        </div>
+    </div>
+
+    <div id="sad-screen" class="hidden">
+        <div class="sad-content">
+            <div class="broken-heart">💔</div>
+            <p id="sad-text"></p>
+            <button id="restart-btn" class="pixel-btn hidden">REINICIAR</button>
+        </div>
+    </div>
+
+    <div class="game-boy-screen">
+        
+        <audio id="bg-music" loop>
+            <source src="musica.mp3" type="audio/mp3">
+        </audio>
+
+        <button id="music-btn" class="music-toggle hidden">🔇</button> <video autoplay muted loop id="bg-video">
+            <source src="video.mp4" type="video/mp4">
+        </video>
+
+        <div id="visual-novel-ui" class="vn-ui hidden">
+            <div class="dialogue-box" id="main-dialogue-box">
+                <h2 id="char-name">Gatito Mágico dice:</h2>
+                <p id="dialogue-text"></p>
+                <div id="next-indicator" class="next-indicator hidden">▼</div>
+            </div>
+
+            <div id="options-container" class="options-box hidden">
+                </div>
+        </div>
+
+        <div id="letter-scene" class="letter-scene hidden">
+             <div class="countdown-container">
+                <p>TIEMPO RESTANTE:</p>
+                <div id="timer">00d 00h 00m 00s</div>
+            </div>
+            <div class="contenedor-carta">
+                <div class="envoltura-sobre">
+                    <div class="sobre">
+                        <div class="carta">
+                            <div class="contenido">
+                                <strong>Hola mi Player 2 👾</strong>
+                                <p>
+                                    Hoy es <strong>San Valentín</strong>. <br><br>
+                                    Como este gatito bajo la lluvia de cerezos, siempre estaré esperando por ti.
+                                    <br><br>
+                                    Eres mi pixel favorito en esta pantalla llamada vida.
+                                    <br><br>
+                                    <strong>¿Quieres ser mi San Valentín?</strong>
+                                    <br><br>
+                                    <span style="font-size: 0.8em; color: var(--texto);">PD: Abre la carta para continuar.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="corazon"></div>
+                    <div class="solapa-derecha"></div>
+                    <div class="solapa-izquierda"></div>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+
+    <script src="script.js"></script>
+</body>
+</html>

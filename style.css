@@ -1,0 +1,316 @@
+:root {
+    --pixel-font: 'VT323', monospace;
+    --ui-bg: rgba(0, 0, 0, 0.85);
+    --ui-border: #fff;
+    --text-color: #fff;
+    --accent: #ff477e;
+    
+    /* Variables Carta */
+    --fondo-sobre: #ffe3ed; 
+    --solapa-sobre: #ffccd5; 
+    --cuerpo-sobre: #ffc1d1; 
+    --sombra: rgba(0,0,0,0.4);
+    --texto: #003049; 
+    --corazon: #ff477e; 
+    --borde-pixel: 4px solid #000;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #2b2b2b;
+    background-image: radial-gradient(#444 1px, transparent 1px);
+    background-size: 20px 20px;
+    font-family: var(--pixel-font);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* --- EL CONTENEDOR MÁGICO --- */
+.game-boy-screen {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    aspect-ratio: 9 / 16;
+    max-height: 95vh;
+    background: #000;
+    border: 8px solid #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(255, 71, 126, 0.5);
+    overflow: hidden;
+}
+
+#bg-video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* --- INTERFAZ --- */
+.vn-ui {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    z-index: 10;
+    display: flex; flex-direction: column; gap: 10px;
+}
+
+.dialogue-box {
+    cursor: pointer;
+    background: var(--ui-bg);
+    border: 3px solid var(--ui-border);
+    padding: 15px;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    position: relative;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+    min-height: 100px;
+    border-radius: 4px;
+}
+
+h2#char-name {
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.next-indicator {
+    position: absolute;
+    bottom: 5px; right: 10px;
+    animation: bounce 1s infinite;
+}
+.next-indicator.hidden { display: none; }
+
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+
+/* Botones */
+.options-box {
+    display: flex; flex-direction: column; gap: 10px; width: 100%;
+}
+
+.pixel-btn {
+    background: var(--accent);
+    color: white;
+    font-family: var(--pixel-font);
+    font-size: 1.4rem;
+    padding: 10px;
+    border: 3px solid white;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #880e36;
+    transition: transform 0.1s;
+}
+
+.pixel-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #880e36;
+}
+
+.hidden { display: none !important; }
+
+/* --- ESCENA CARTA ESTILO 8-BIT --- */
+.letter-scene {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 20;
+}
+
+.countdown-container {
+    color: white;
+    background: #000;
+    border: var(--borde-pixel);
+    padding: 15px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    box-shadow: 6px 6px 0px var(--accent);
+    text-align: center;
+}
+
+.contenedor-carta {
+    transform: scale(0.7);
+    animation: popIn 1s forwards;
+}
+
+.envoltura-sobre {
+    position: relative;
+    background-color: var(--fondo-sobre);
+    border: var(--borde-pixel);
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+}
+
+.sobre { position: relative; width: 300px; height: 200px; }
+
+.sobre::before {
+    content: ""; position: absolute; top: 0; z-index: 4;
+    border-top: 130px solid var(--solapa-sobre);
+    border-right: 150px solid transparent;
+    border-left: 150px solid transparent;
+    transform-origin: top; transition: all 0.5s ease-in-out 0.7s;
+}
+.solapa-derecha {
+    position: absolute; top: 0; right: 0; width: 100%; height: 100%;
+    clip-path: polygon(100% 0, 0 100%, 100% 100%);
+    background-color: var(--cuerpo-sobre);
+    border-left: 2px solid rgba(0,0,0,0.1);
+}
+.solapa-izquierda {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+    background-color: var(--cuerpo-sobre);
+    border-right: 2px solid rgba(0,0,0,0.1);
+}
+
+.carta {
+    position: absolute; bottom: 0; width: 100%; height: 100%;
+    background-color: #fff;
+    padding: 15px;
+    border: var(--borde-pixel);
+    transition: transform .5s ease-in-out;
+}
+
+.contenido {
+    font-family: var(--pixel-font);
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+    color: var(--texto);
+    border: 4px dashed #000;
+    padding: 15px; height: 100%; overflow-y: auto;
+    background: #fff;
+}
+
+/* --- BOTÓN CORAZÓN 8-BIT (AJUSTADO) --- */
+.corazon {
+    position: absolute;
+    /* AJUSTE DE POSICIÓN SOLICITADO */
+    /* 50% - 1px a la izquierda */
+    left: calc(50% - 1px);
+    /* 50% + 3px hacia abajo */
+    top: calc(50% + 3px);
+    
+    /* TAMAÑO MÁXIMO */
+    width: 60px; 
+    height: 60px;
+    
+    transform: translate(-50%, -50%);
+    z-index: 999; cursor: pointer;
+    
+    background-image: url('data:image/svg+xml;utf8,<svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M3 2h2v1h1v-1h2v1h1v2h-1v1h-1v1h-1v1h-1v-1h-1v-1h-1v-1h-1v-2h1v-1z" fill="%23ff477e" stroke="%23000000" stroke-width="0.2"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    image-rendering: pixelated; 
+    
+    transition: transform 0.5s ease-in-out 1s;
+    box-shadow: none; border: none; background-color: transparent; border-radius: 0;
+}
+
+.corazon::before, .corazon::after { content: none; }
+
+/* ESTADOS AL ABRIR EL SOBRE */
+.abierto .sobre::before { transform: rotateX(180deg); z-index: 0; }
+
+.abierto .corazon { 
+    /* NO DESAPARECE, SOLO PALPITA */
+    opacity: 1; 
+    /* Mantener centrado (-50%) y aplicar animación de latido */
+    animation: heartBeat 1.2s infinite;
+}
+
+/* Animación de palpitación (incluye el translate para mantenerlo centrado) */
+@keyframes heartBeat {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    14% { transform: translate(-50%, -50%) scale(1.15); }
+    28% { transform: translate(-50%, -50%) scale(1); }
+    42% { transform: translate(-50%, -50%) scale(1.15); }
+    70% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.carta.mostrar-carta { transform: translateY(-180px); z-index: 5; }
+.carta.abierta { z-index: 100; transform: translateY(-180px); }
+.envoltura-sobre.desactivar-sobre .sobre::before { pointer-events: none; }
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(0.85); }
+}
+
+/* BOTÓN DE MÚSICA */
+.music-toggle {
+    position: absolute;
+    bottom: 20px; right: 20px; top: auto; z-index: 100;
+    background: rgba(0, 0, 0, 0.6);
+    border: 3px solid #fff;
+    color: #fff; font-size: 1.5rem;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 4px 4px 0px #000;
+}
+.music-toggle:hover { background: var(--accent); transform: scale(1.1); }
+.music-playing {
+    border-color: var(--accent); background: rgba(255, 71, 126, 0.3);
+    animation: pulseMusic 2s infinite;
+}
+@keyframes pulseMusic {
+    0% { box-shadow: 0 0 0 0 rgba(255, 71, 126, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 71, 126, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 71, 126, 0); }
+}
+
+/* --- SPLASH SCREEN --- */
+#splash-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    transition: opacity 1s ease-out; overflow: hidden;
+}
+
+.splash-content { z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+.game-title {
+    font-size: 4rem; color: #fff; text-shadow: 4px 4px 0px #ff477e;
+    margin-bottom: 10px; text-align: center; animation: bounce 2s infinite;
+}
+
+.press-start-text { font-size: 1.5rem; color: #fff; margin-bottom: 40px; letter-spacing: 2px; }
+
+/* CORAZONES 8-BIT FONDO */
+.pixel-hearts-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.6;
+    background-image: url('data:image/svg+xml;utf8,<svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M3 2h2v1h1v-1h2v1h1v2h-1v1h-1v1h-1v1h-1v-1h-1v-1h-1v-1h-1v-2h1v-1z" fill="%23ff477e"/></svg>');
+    background-size: 60px 60px; image-rendering: pixelated; animation: bgScroll 15s linear infinite;
+}
+@keyframes bgScroll { from { background-position: 0 0; } to { background-position: 60px 120px; } }
+
+/* --- BOTÓN INICIAL --- */
+.start-btn { font-size: 2rem !important; padding: 15px 50px !important; opacity: 0; pointer-events: none; border: 4px solid #fff; box-shadow: 6px 6px 0px #ff477e;}
+.start-btn.delayed-appear { animation: simpleFadeIn 1s ease-out 1s forwards, pulse 1.5s infinite 2s; }
+
+@keyframes simpleFadeIn {
+    0% { opacity: 0; transform: translateY(20px); pointer-events: none; }
+    100% { opacity: 1; transform: translateY(0); pointer-events: auto; }
+}
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+.fade-out { opacity: 0; pointer-events: none; }
+.moving-btn { position: absolute !important; transition: all 0.2s ease; z-index: 100; }
+
+/* PANTALLA TRISTE */
+#sad-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 10000; color: #fff; display: flex; justify-content: center; align-items: center; flex-direction: column;
+}
+.sad-content { text-align: center; max-width: 80%; }
+.broken-heart { font-size: 5rem; margin-bottom: 20px; animation: pulseSlow 3s infinite; }
+#sad-text { font-size: 1.5rem; margin-bottom: 30px; min-height: 50px; }
+@keyframes pulseSlow { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
