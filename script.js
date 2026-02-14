@@ -1,6 +1,6 @@
 // --- CONFIGURACIÓN ---
-// const TARGET_DATE = new Date("February 14, 2026 00:00:00").getTime();
-const TARGET_DATE = new Date().getTime(); // MODO TESTING
+const TARGET_DATE = new Date("February 14, 2026 00:00:00").getTime();
+//const TARGET_DATE = new Date().getTime(); // MODO TESTING
 
 // --- REFERENCIAS DOM ---
 const music = document.getElementById('bg-music');
